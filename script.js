@@ -5,10 +5,10 @@ const STORAGE_KEY = 'screenstack_layout';
 const DEFAULT_LAYOUT = {
     grid: { cols: 2, rows: 2 },
     frames: [
-        { url: '', sandbox: true, border: false },
-        { url: '', sandbox: true, border: false },
-        { url: '', sandbox: true, border: false },
-        { url: '', sandbox: true, border: false }
+        { url: '', sandbox: true },
+        { url: '', sandbox: true },
+        { url: '', sandbox: true },
+        { url: '', sandbox: true }
     ]
 };
 
@@ -113,18 +113,6 @@ class ScreenStack {
         sandboxLabel.appendChild(sandboxCheck);
         sandboxLabel.appendChild(document.createTextNode('Sandbox'));
 
-        // Border checkbox
-        const borderLabel = document.createElement('label');
-        borderLabel.title = 'Show border around iframe';
-        const borderCheck = document.createElement('input');
-        borderCheck.type = 'checkbox';
-        borderCheck.checked = frameData.border === true;
-        borderCheck.addEventListener('change', (e) => {
-            this.updateFrameOption(index, 'border', e.target.checked);
-        });
-        borderLabel.appendChild(borderCheck);
-        borderLabel.appendChild(document.createTextNode('Border'));
-
         // Remove button
         const removeBtn = document.createElement('button');
         removeBtn.className = 'remove-frame';
@@ -137,15 +125,11 @@ class ScreenStack {
         header.appendChild(urlInput);
         header.appendChild(loadBtn);
         header.appendChild(sandboxLabel);
-        header.appendChild(borderLabel);
         header.appendChild(removeBtn);
 
         // Content area
         const content = document.createElement('div');
         content.className = 'frame-content';
-        if (frameData.border) {
-            content.classList.add('with-border');
-        }
 
         // Create iframe if URL exists
         if (frameData.url) {
@@ -201,7 +185,7 @@ class ScreenStack {
     }
 
     addFrame() {
-        this.layout.frames.push({ url: '', sandbox: true, border: false });
+        this.layout.frames.push({ url: '', sandbox: true });
 
         // Adjust grid to accommodate new frame
         const totalFrames = this.layout.frames.length;

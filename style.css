@@ -148,10 +148,6 @@ body {
     border: none;
 }
 
-.frame-content.with-border iframe {
-    border: 1px solid #4a4a4a;
-}
-
 /* Error overlay */
 .frame-error {
     position: absolute;
