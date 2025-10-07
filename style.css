@@ -28,6 +28,26 @@ body {
     flex-shrink: 0;
 }
 
+#toolbar select {
+    background: #3a3a3a;
+    color: #e0e0e0;
+    border: 1px solid #4a4a4a;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+#toolbar select:hover {
+    background: #4a4a4a;
+}
+
+#toolbar select:focus {
+    outline: none;
+    border-color: #5a5a5a;
+}
+
 #toolbar button {
     background: #3a3a3a;
     color: #e0e0e0;
@@ -67,6 +87,9 @@ body {
     flex-direction: column;
     overflow: hidden;
     position: relative;
+    resize: both;
+    min-width: 200px;
+    min-height: 200px;
 }
 
 .frame-header {

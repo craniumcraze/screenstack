@@ -5,11 +5,75 @@ const STORAGE_KEY = 'screenstack_layout';
 const DEFAULT_LAYOUT = {
     grid: { cols: 2, rows: 2 },
     frames: [
-        { url: '', sandbox: true },
-        { url: '', sandbox: true },
-        { url: '', sandbox: true },
-        { url: '', sandbox: true }
+        { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
+        { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
+        { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
+        { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
     ]
+};
+
+const LAYOUT_TEMPLATES = {
+    '2x2': {
+        grid: { cols: 2, rows: 2 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+        ]
+    },
+    '3x3': {
+        grid: { cols: 3, rows: 3 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
+            { url: '', sandbox: true, gridArea: '1 / 3 / 2 / 4' },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' },
+            { url: '', sandbox: true, gridArea: '2 / 3 / 3 / 4' },
+            { url: '', sandbox: true, gridArea: '3 / 1 / 4 / 2' },
+            { url: '', sandbox: true, gridArea: '3 / 2 / 4 / 3' },
+            { url: '', sandbox: true, gridArea: '3 / 3 / 4 / 4' }
+        ]
+    },
+    '1x1': {
+        grid: { cols: 1, rows: 1 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' }
+        ]
+    },
+    '2-left-1-right': {
+        grid: { cols: 2, rows: 2 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 3 / 3' }
+        ]
+    },
+    '1-left-2-right': {
+        grid: { cols: 2, rows: 2 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 3 / 2' },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+        ]
+    },
+    '2-top-1-bottom': {
+        grid: { cols: 2, rows: 2 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 3' }
+        ]
+    },
+    '1-top-2-bottom': {
+        grid: { cols: 2, rows: 2 },
+        frames: [
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 3' },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+        ]
+    }
 };
 
 class ScreenStack {
@@ -27,6 +91,7 @@ class ScreenStack {
 
     setupEventListeners() {
         document.getElementById('add-frame').addEventListener('click', () => this.addFrame());
+        document.getElementById('layout-template').addEventListener('change', (e) => this.applyTemplate(e.target.value));
         document.getElementById('save-layout').addEventListener('click', () => this.saveLayout());
         document.getElementById('share-layout').addEventListener('click', () => this.shareLayout());
         document.getElementById('reset-layout').addEventListener('click', () => this.resetLayout());
@@ -74,12 +139,19 @@ class ScreenStack {
         this.layout.frames.forEach((frame, index) => {
             this.gridContainer.appendChild(this.createFrameElement(frame, index));
         });
+
+        this.setupResizeHandles();
     }
 
     createFrameElement(frameData, index) {
         const wrapper = document.createElement('div');
         wrapper.className = 'frame-wrapper';
         wrapper.dataset.index = index;
+
+        // Apply grid area if specified
+        if (frameData.gridArea) {
+            wrapper.style.gridArea = frameData.gridArea;
+        }
 
         // Header
         const header = document.createElement('div');
@@ -185,14 +257,22 @@ class ScreenStack {
     }
 
     addFrame() {
-        this.layout.frames.push({ url: '', sandbox: true });
-
-        // Adjust grid to accommodate new frame
         const totalFrames = this.layout.frames.length;
-        const cols = Math.ceil(Math.sqrt(totalFrames));
-        const rows = Math.ceil(totalFrames / cols);
+        const cols = this.layout.grid.cols;
+        const rows = this.layout.grid.rows;
 
-        this.layout.grid = { cols, rows };
+        // Calculate next available position
+        const newRow = Math.floor(totalFrames / cols) + 1;
+        const newCol = (totalFrames % cols) + 1;
+
+        // Expand grid if needed
+        if (newRow > rows) {
+            this.layout.grid.rows = newRow;
+        }
+
+        const gridArea = `${newRow} / ${newCol} / ${newRow + 1} / ${newCol + 1}`;
+        this.layout.frames.push({ url: '', sandbox: true, gridArea });
+
         this.saveLayout();
         this.render();
     }
@@ -204,13 +284,6 @@ class ScreenStack {
         }
 
         this.layout.frames.splice(index, 1);
-
-        // Adjust grid
-        const totalFrames = this.layout.frames.length;
-        const cols = Math.ceil(Math.sqrt(totalFrames));
-        const rows = Math.ceil(totalFrames / cols);
-
-        this.layout.grid = { cols, rows };
         this.saveLayout();
         this.render();
     }
@@ -240,6 +313,35 @@ class ScreenStack {
             console.error('Failed to create share link:', e);
             this.showNotification('Failed to create share link');
         }
+    }
+
+    applyTemplate(templateKey) {
+        if (!templateKey || !LAYOUT_TEMPLATES[templateKey]) {
+            return;
+        }
+
+        const template = JSON.parse(JSON.stringify(LAYOUT_TEMPLATES[templateKey]));
+
+        // Preserve URLs from current frames if they exist
+        template.frames.forEach((frame, index) => {
+            if (this.layout.frames[index]) {
+                frame.url = this.layout.frames[index].url;
+                frame.sandbox = this.layout.frames[index].sandbox;
+            }
+        });
+
+        this.layout = template;
+        this.saveLayout();
+        this.render();
+
+        // Reset dropdown
+        document.getElementById('layout-template').value = '';
+    }
+
+    setupResizeHandles() {
+        // This creates visual resize capability between grid cells
+        // For now, we'll use CSS resize property on frame-wrapper
+        // More advanced implementation could use draggable dividers
     }
 
     resetLayout() {
