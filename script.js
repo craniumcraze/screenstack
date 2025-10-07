@@ -5,10 +5,10 @@ const STORAGE_KEY = 'screenstack_layout';
 const DEFAULT_LAYOUT = {
     grid: { cols: 2, rows: 2 },
     frames: [
-        { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
-        { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
-        { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
-        { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+        { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
+        { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
+        { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
+        { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
     ]
 };
 
@@ -176,6 +176,22 @@ class ScreenStack {
             this.loadFrame(index, urlInput.value);
         });
 
+        // Zoom control
+        const zoomLabel = document.createElement('label');
+        zoomLabel.title = 'Zoom level';
+        zoomLabel.appendChild(document.createTextNode('Zoom:'));
+        const zoomInput = document.createElement('input');
+        zoomInput.type = 'number';
+        zoomInput.min = '0.1';
+        zoomInput.max = '3';
+        zoomInput.step = '0.1';
+        zoomInput.value = frameData.zoom || 1;
+        zoomInput.style.width = '50px';
+        zoomInput.addEventListener('change', (e) => {
+            this.updateFrameOption(index, 'zoom', parseFloat(e.target.value) || 1);
+        });
+        zoomLabel.appendChild(zoomInput);
+
         // Sandbox checkbox
         const sandboxLabel = document.createElement('label');
         sandboxLabel.title = 'Enable sandbox for security';
@@ -199,6 +215,7 @@ class ScreenStack {
 
         header.appendChild(urlInput);
         header.appendChild(loadBtn);
+        header.appendChild(zoomLabel);
         header.appendChild(sandboxLabel);
         header.appendChild(removeBtn);
 
@@ -227,6 +244,15 @@ class ScreenStack {
 
         iframe.setAttribute('loading', 'lazy');
         iframe.setAttribute('referrerpolicy', 'no-referrer');
+
+        // Apply zoom
+        const zoom = frameData.zoom || 1;
+        if (zoom !== 1) {
+            iframe.style.transform = `scale(${zoom})`;
+            iframe.style.transformOrigin = 'top left';
+            iframe.style.width = `${100 / zoom}%`;
+            iframe.style.height = `${100 / zoom}%`;
+        }
 
         container.innerHTML = '';
         container.appendChild(iframe);
@@ -274,7 +300,7 @@ class ScreenStack {
         }
 
         const gridArea = `${newRow} / ${newCol} / ${newRow + 1} / ${newCol + 1}`;
-        this.layout.frames.push({ url: '', sandbox: true, gridArea });
+        this.layout.frames.push({ url: '', sandbox: true, gridArea, zoom: 1 });
 
         this.saveLayout();
         this.render();
