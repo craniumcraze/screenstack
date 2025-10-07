@@ -5,10 +5,10 @@ const STORAGE_KEY = 'screenstack_layout';
 const DEFAULT_LAYOUT = {
     grid: { cols: 2, rows: 2 },
     frames: [
-        { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
-        { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
-        { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
-        { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
+        { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false },
+        { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1, autoRefresh: false },
+        { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+        { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1, autoRefresh: false }
     ]
 };
 
@@ -16,62 +16,62 @@ const LAYOUT_TEMPLATES = {
     '2x2': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1, autoRefresh: false }
         ]
     },
     '3x3': {
         grid: { cols: 3, rows: 3 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 3 / 2 / 4', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 3 / 3 / 4', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '3 / 1 / 4 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '3 / 2 / 4 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '3 / 3 / 4 / 4', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 3 / 2 / 4', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 3 / 3 / 4', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '3 / 1 / 4 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '3 / 2 / 4 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '3 / 3 / 4 / 4', zoom: 1, autoRefresh: false }
         ]
     },
     '1x1': {
         grid: { cols: 1, rows: 1 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false }
         ]
     },
     '2-left-1-right': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 3 / 3', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 3 / 3', zoom: 1, autoRefresh: false }
         ]
     },
     '1-left-2-right': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 3 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1, autoRefresh: false }
         ]
     },
     '2-top-1-bottom': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 3', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 3', zoom: 1, autoRefresh: false }
         ]
     },
     '1-top-2-bottom': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 3', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 3', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1, autoRefresh: false },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1, autoRefresh: false }
         ]
     }
 };
@@ -80,6 +80,7 @@ class ScreenStack {
     constructor() {
         this.gridContainer = document.getElementById('grid-container');
         this.layout = this.loadLayout();
+        this.refreshIntervals = {}; // Track active refresh intervals
         this.init();
     }
 
@@ -134,10 +135,19 @@ class ScreenStack {
         this.gridContainer.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
         this.gridContainer.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
+        // Clear existing intervals
+        Object.values(this.refreshIntervals).forEach(interval => clearInterval(interval));
+        this.refreshIntervals = {};
+
         this.gridContainer.innerHTML = '';
 
         this.layout.frames.forEach((frame, index) => {
             this.gridContainer.appendChild(this.createFrameElement(frame, index));
+
+            // Restore auto-refresh if enabled
+            if (frame.autoRefresh && frame.url) {
+                this.startAutoRefresh(index);
+            }
         });
     }
 
@@ -187,6 +197,18 @@ class ScreenStack {
         });
         zoomLabel.appendChild(zoomInput);
 
+        // Auto-refresh checkbox
+        const refreshLabel = document.createElement('label');
+        refreshLabel.title = 'Auto-refresh every 5 seconds';
+        const refreshCheck = document.createElement('input');
+        refreshCheck.type = 'checkbox';
+        refreshCheck.checked = frameData.autoRefresh || false;
+        refreshCheck.addEventListener('change', (e) => {
+            this.toggleAutoRefresh(index, e.target.checked);
+        });
+        refreshLabel.appendChild(refreshCheck);
+        refreshLabel.appendChild(document.createTextNode('Auto-Refresh'));
+
         // Sandbox checkbox
         const sandboxLabel = document.createElement('label');
         sandboxLabel.title = 'Enable sandbox for security';
@@ -211,6 +233,7 @@ class ScreenStack {
         header.appendChild(urlInput);
         header.appendChild(loadBtn);
         header.appendChild(zoomLabel);
+        header.appendChild(refreshLabel);
         header.appendChild(sandboxLabel);
         header.appendChild(removeBtn);
 
@@ -280,6 +303,45 @@ class ScreenStack {
         this.render();
     }
 
+    toggleAutoRefresh(index, enabled) {
+        this.layout.frames[index].autoRefresh = enabled;
+        this.saveLayout();
+
+        if (enabled) {
+            this.startAutoRefresh(index);
+        } else {
+            this.stopAutoRefresh(index);
+        }
+    }
+
+    startAutoRefresh(index) {
+        // Clear existing interval if any
+        this.stopAutoRefresh(index);
+
+        // Set up new interval
+        this.refreshIntervals[index] = setInterval(() => {
+            const frame = this.layout.frames[index];
+            if (frame && frame.url) {
+                const wrapper = this.gridContainer.querySelector(`[data-index="${index}"]`);
+                if (wrapper) {
+                    const iframe = wrapper.querySelector('iframe');
+                    if (iframe) {
+                        // Reload iframe by resetting src
+                        const currentSrc = iframe.src;
+                        iframe.src = currentSrc;
+                    }
+                }
+            }
+        }, 5000); // 5 seconds
+    }
+
+    stopAutoRefresh(index) {
+        if (this.refreshIntervals[index]) {
+            clearInterval(this.refreshIntervals[index]);
+            delete this.refreshIntervals[index];
+        }
+    }
+
     addFrame() {
         const totalFrames = this.layout.frames.length;
         const cols = this.layout.grid.cols;
@@ -295,7 +357,7 @@ class ScreenStack {
         }
 
         const gridArea = `${newRow} / ${newCol} / ${newRow + 1} / ${newCol + 1}`;
-        this.layout.frames.push({ url: '', sandbox: true, gridArea, zoom: 1 });
+        this.layout.frames.push({ url: '', sandbox: true, gridArea, zoom: 1, autoRefresh: false });
 
         this.saveLayout();
         this.render();
@@ -306,6 +368,9 @@ class ScreenStack {
             this.showNotification('Must have at least one frame');
             return;
         }
+
+        // Stop auto-refresh for this frame
+        this.stopAutoRefresh(index);
 
         this.layout.frames.splice(index, 1);
         this.saveLayout();
@@ -346,12 +411,13 @@ class ScreenStack {
 
         const template = JSON.parse(JSON.stringify(LAYOUT_TEMPLATES[templateKey]));
 
-        // Preserve URLs, zoom, and sandbox from current frames if they exist
+        // Preserve URLs, zoom, sandbox, and autoRefresh from current frames if they exist
         template.frames.forEach((frame, index) => {
             if (this.layout.frames[index]) {
                 frame.url = this.layout.frames[index].url;
                 frame.sandbox = this.layout.frames[index].sandbox;
                 frame.zoom = this.layout.frames[index].zoom || 1;
+                frame.autoRefresh = this.layout.frames[index].autoRefresh || false;
             }
         });
 
