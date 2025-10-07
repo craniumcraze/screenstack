@@ -139,8 +139,6 @@ class ScreenStack {
         this.layout.frames.forEach((frame, index) => {
             this.gridContainer.appendChild(this.createFrameElement(frame, index));
         });
-
-        this.setupResizeHandles();
     }
 
     createFrameElement(frameData, index) {
@@ -152,9 +150,6 @@ class ScreenStack {
         if (frameData.gridArea) {
             wrapper.style.gridArea = frameData.gridArea;
         }
-
-        // Add resize handles
-        this.addResizeHandles(wrapper, index);
 
         // Header
         const header = document.createElement('div');
@@ -367,141 +362,8 @@ class ScreenStack {
         document.getElementById('layout-template').value = '';
     }
 
-    addResizeHandles(wrapper, index) {
-        const handles = [
-            'nw', 'n', 'ne',
-            'w', 'e',
-            'sw', 's', 'se'
-        ];
-
-        handles.forEach(direction => {
-            const handle = document.createElement('div');
-            handle.className = `resize-handle resize-${direction}`;
-
-            if (direction.length === 1) {
-                handle.classList.add('edge');
-            } else {
-                handle.classList.add('corner');
-            }
-
-            handle.addEventListener('mousedown', (e) => this.startResize(e, wrapper, index, direction));
-            wrapper.appendChild(handle);
-        });
-    }
-
-    startResize(e, wrapper, index, direction) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const startX = e.clientX;
-        const startY = e.clientY;
-        const startRect = wrapper.getBoundingClientRect();
-        const gridRect = this.gridContainer.getBoundingClientRect();
-
-        const onMouseMove = (e) => {
-            const deltaX = e.clientX - startX;
-            const deltaY = e.clientY - startY;
-
-            let newRect = {
-                top: startRect.top - gridRect.top,
-                left: startRect.left - gridRect.left,
-                width: startRect.width,
-                height: startRect.height
-            };
-
-            // Apply deltas based on resize direction
-            if (direction.includes('n')) {
-                newRect.top += deltaY;
-                newRect.height -= deltaY;
-            }
-            if (direction.includes('s')) {
-                newRect.height += deltaY;
-            }
-            if (direction.includes('w')) {
-                newRect.left += deltaX;
-                newRect.width -= deltaX;
-            }
-            if (direction.includes('e')) {
-                newRect.width += deltaX;
-            }
-
-            // Apply minimum sizes
-            newRect.width = Math.max(200, newRect.width);
-            newRect.height = Math.max(200, newRect.height);
-
-            // Snap to grid edges
-            newRect = this.snapToGrid(newRect, wrapper);
-
-            // Apply new position and size
-            wrapper.style.position = 'absolute';
-            wrapper.style.left = `${newRect.left}px`;
-            wrapper.style.top = `${newRect.top}px`;
-            wrapper.style.width = `${newRect.width}px`;
-            wrapper.style.height = `${newRect.height}px`;
-        };
-
-        const onMouseUp = () => {
-            document.removeEventListener('mousemove', onMouseMove);
-            document.removeEventListener('mouseup', onMouseUp);
-        };
-
-        document.addEventListener('mousemove', onMouseMove);
-        document.addEventListener('mouseup', onMouseUp);
-    }
-
-    snapToGrid(rect, currentWrapper) {
-        const snapThreshold = 10; // pixels
-        const wrappers = this.gridContainer.querySelectorAll('.frame-wrapper');
-        const gridRect = this.gridContainer.getBoundingClientRect();
-
-        wrappers.forEach(wrapper => {
-            if (wrapper === currentWrapper) return;
-
-            const otherRect = wrapper.getBoundingClientRect();
-            const relativeRect = {
-                top: otherRect.top - gridRect.top,
-                left: otherRect.left - gridRect.left,
-                right: otherRect.right - gridRect.left,
-                bottom: otherRect.bottom - gridRect.top
-            };
-
-            // Snap left edge to other's right edge
-            if (Math.abs(rect.left - relativeRect.right) < snapThreshold) {
-                rect.left = relativeRect.right;
-            }
-            // Snap right edge to other's left edge
-            if (Math.abs((rect.left + rect.width) - relativeRect.left) < snapThreshold) {
-                rect.width = relativeRect.left - rect.left;
-            }
-            // Snap top edge to other's bottom edge
-            if (Math.abs(rect.top - relativeRect.bottom) < snapThreshold) {
-                rect.top = relativeRect.bottom;
-            }
-            // Snap bottom edge to other's top edge
-            if (Math.abs((rect.top + rect.height) - relativeRect.top) < snapThreshold) {
-                rect.height = relativeRect.top - rect.top;
-            }
-
-            // Snap to same edges (alignment)
-            if (Math.abs(rect.left - relativeRect.left) < snapThreshold) {
-                rect.left = relativeRect.left;
-            }
-            if (Math.abs((rect.left + rect.width) - relativeRect.right) < snapThreshold) {
-                rect.width = relativeRect.right - rect.left;
-            }
-            if (Math.abs(rect.top - relativeRect.top) < snapThreshold) {
-                rect.top = relativeRect.top;
-            }
-            if (Math.abs((rect.top + rect.height) - relativeRect.bottom) < snapThreshold) {
-                rect.height = relativeRect.bottom - rect.top;
-            }
-        });
-
-        return rect;
-    }
-
     setupResizeHandles() {
-        // Resize handles are now added per-frame in addResizeHandles()
+        // Removed manual resizing - templates are sufficient
     }
 
     resetLayout() {
