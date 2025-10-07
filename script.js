@@ -16,62 +16,62 @@ const LAYOUT_TEMPLATES = {
     '2x2': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
         ]
     },
     '3x3': {
         grid: { cols: 3, rows: 3 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
-            { url: '', sandbox: true, gridArea: '1 / 3 / 2 / 4' },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' },
-            { url: '', sandbox: true, gridArea: '2 / 3 / 3 / 4' },
-            { url: '', sandbox: true, gridArea: '3 / 1 / 4 / 2' },
-            { url: '', sandbox: true, gridArea: '3 / 2 / 4 / 3' },
-            { url: '', sandbox: true, gridArea: '3 / 3 / 4 / 4' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 3 / 2 / 4', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 3 / 3 / 4', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '3 / 1 / 4 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '3 / 2 / 4 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '3 / 3 / 4 / 4', zoom: 1 }
         ]
     },
     '1x1': {
         grid: { cols: 1, rows: 1 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 }
         ]
     },
     '2-left-1-right': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 3 / 3' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 3 / 3', zoom: 1 }
         ]
     },
     '1-left-2-right': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 3 / 2' },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 3 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
         ]
     },
     '2-top-1-bottom': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2' },
-            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3' },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 3' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '1 / 2 / 2 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 3', zoom: 1 }
         ]
     },
     '1-top-2-bottom': {
         grid: { cols: 2, rows: 2 },
         frames: [
-            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 3' },
-            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2' },
-            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3' }
+            { url: '', sandbox: true, gridArea: '1 / 1 / 2 / 3', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 1 / 3 / 2', zoom: 1 },
+            { url: '', sandbox: true, gridArea: '2 / 2 / 3 / 3', zoom: 1 }
         ]
     }
 };
@@ -346,11 +346,12 @@ class ScreenStack {
 
         const template = JSON.parse(JSON.stringify(LAYOUT_TEMPLATES[templateKey]));
 
-        // Preserve URLs from current frames if they exist
+        // Preserve URLs, zoom, and sandbox from current frames if they exist
         template.frames.forEach((frame, index) => {
             if (this.layout.frames[index]) {
                 frame.url = this.layout.frames[index].url;
                 frame.sandbox = this.layout.frames[index].sandbox;
+                frame.zoom = this.layout.frames[index].zoom || 1;
             }
         });
 
